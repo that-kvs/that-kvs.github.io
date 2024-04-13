@@ -159,7 +159,7 @@ nav ul {
 }
 
 nav ul li {
-    display: inline-block;
+    display: block;
     margin: 0 0.5rem;
     position: relative;
     text-align: left;
@@ -278,10 +278,11 @@ sup {
 
 /* Links */
 a {
-    color: var(--color-link);
+    color: white;
     display: inline-block;
     font-weight: bold;
-    text-decoration: underline;
+    text-decoration:none;
+    cursor:cell;
 }
 
 a:hover {
@@ -357,6 +358,52 @@ figure img {
 
 figure figcaption {
     color: var(--color-text-secondary);
+}
+
+.image-container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 0%;
+  left: 13%;
+}
+
+.top {
+  position: absolute;
+  top: 0%;
+  left: 13%;
+  right: 13%
+}
+
+.top-right {
+  position: absolute;
+  top: 0%;
+  right: 13%;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 0%;
+  right: 13%;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.divclick {
+  width: 30%;
+  position: absolute;
+  top: 13%;
+  text-align: left;
+  display: none;
+  font-size: 1.2rem
 }
 
 /* Forms */
