@@ -12,7 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/TrackballControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
 
 </head>
@@ -29,8 +28,8 @@
         const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light, adjust intensity
         scene.add(ambientLight);
 
-        const hemisphereLight = new THREE.HemisphereLight(0xffeedd, 0x404040, 0.5); // Sky color, ground color, intensity
-        scene.add(hemisphereLight);
+//        const hemisphereLight = new THREE.HemisphereLight(0xffeedd, 0x404040, 0.5); // Sky color, ground color, intensity
+  //      scene.add(hemisphereLight);
         
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         directionalLight.position.set(-1, -1, -1).normalize(); // Adjust position as needed
@@ -65,19 +64,17 @@
         renderer.setClearColor(0xffffff);
         document.body.appendChild( renderer.domElement );
 
-        //controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls = new THREE.TrackballControls(camera, renderer.domElement);
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.addEventListener('change', renderer);
-/*        controls.minPolarAngle = -Infinity; // Lower limit for vertical rotation
+        controls.minPolarAngle = -Infinity; // Lower limit for vertical rotation
         controls.maxPolarAngle = Infinity;  // Upper limit for vertical rotation
         controls.minAzimuthAngle = -Infinity; // Lower limit for horizontal rotation
         controls.maxAzimuthAngle = Infinity;  // Upper limit for horizontal rotation
-*/
+
         animate();
 
         function animate() {
             requestAnimationFrame( animate );
-            controls.update(); // Call update in the animation loop
             renderer.render( scene, camera );
         }
 
