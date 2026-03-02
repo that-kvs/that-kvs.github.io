@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>NeRF2Mesh</title>
+    <title>F</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,11 +40,11 @@
         var mesh = null;
 
         var mtlLoader = new THREE.MTLLoader();
-        mtlLoader.load( './obj/mesh_0n2m.obj.mtl', function( materials ) {
+        mtlLoader.load( './obj/sugarfine_3Dgs30000_densityestim02_sdfnorm02_level03_decim1000000_normalconsistency01_gaussperface1.obj.mtl', function( materials ) {
           materials.preload();
           var objLoader = new THREE.OBJLoader();
           objLoader.setMaterials( materials );
-          objLoader.load( './obj/mesh_0n2m.obj', function ( object ) {    
+          objLoader.load( './obj/sugarfine_3Dgs30000_densityestim02_sdfnorm02_level03_decim1000000_normalconsistency01_gaussperface1.obj', function ( object ) {    
               mesh = object;
               scene.add( mesh );
           });

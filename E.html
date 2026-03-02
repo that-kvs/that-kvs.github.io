@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>3DGS-to-PC</title>
+    <title>E</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +19,7 @@
     
     <script>
         let scene, camera, renderer;
+
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
         camera.up.set(0, 0, -1)
@@ -36,19 +37,19 @@
         directionalLight.position.set( 0, 0, 0 ).normalize();
         scene.add( directionalLight );
 
-        var objLoader = new THREE.OBJLoader();
-        objLoader.load('./obj/3dgs_mesh.obj', function ( object ) {    
-        scene.add(object);
-          object.traverse(node => {
-            if (node.material) {
-              node.material.vertexColors = true;
-            }
+        var mesh = null;
+
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.load( './obj/mesh_0n2m.obj.mtl', function( materials ) {
+          materials.preload();
+          var objLoader = new THREE.OBJLoader();
+          objLoader.setMaterials( materials );
+          objLoader.load( './obj/mesh_0n2m.obj', function ( object ) {    
+              mesh = object;
+              scene.add( mesh );
           });
         });
 
-        //axesHelper = new THREE.AxesHelper( 5 ); 
-        //scene.add(axesHelper);
-        
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         renderer.setClearColor(0xffffff);
@@ -64,9 +65,8 @@
         animate();
 
         function animate() {
-            requestAnimationFrame( animate );
-            
             renderer.render( scene, camera );
+            requestAnimationFrame( animate );
         }
 
     </script>
