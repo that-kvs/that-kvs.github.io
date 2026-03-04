@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Viewer</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://threejs.org/build/three.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
+
+</head>
+<body>
+    
+    <script>
+        let scene, camera, renderer;
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
+        camera.up.set(0, 0, -1)
+        camera.position.z = -3;
+        camera.position.x = 0;
+        camera.position.y = -3;
+        
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Soft white light, adjust intensity
+        scene.add(ambientLight);
+
+        const hemisphereLight = new THREE.HemisphereLight(0xffeedd, 0x404040, 0.5); // Sky color, ground color, intensity
+        scene.add(hemisphereLight);
+        
+        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+        directionalLight.position.set( 0, 0, 0 ).normalize();
+        scene.add( directionalLight );
+        
+        const Allmeshes = [];
+        var objLoader = new THREE.OBJLoader();
+        objLoader.load('./obj/2dgs9.obj', function ( object ) {    
+          object.traverse(node => {
+            if (node.material) {
+              node.material.vertexColors = true;
+            }
+          });
+            object.visible = false;
+            object.name = '2dgs';
+        scene.add(object);
+        Allmeshes.push(object);
+        console.log(`Loaded 2dgs`);
+        });
+
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.load( './obj/alic9.obj.mtl', function( materials ) {
+          materials.preload();
+          var objLoader = new THREE.OBJLoader();
+          objLoader.setMaterials( materials );
+          objLoader.load( './obj/alic9.obj', function ( object ) {    
+              mesh = object;
+              mesh.visible = false;
+              mesh.name = 'alice';
+              scene.add( mesh );
+              Allmeshes.push(mesh);              
+              console.log(`Loaded alice`);
+          });
+        });
+
+        var objLoader = new THREE.OBJLoader();
+        objLoader.load('./obj/pgsr9.obj', function ( object ) {    
+          object.traverse(node => {
+            if (node.material) {
+              node.material.vertexColors = true;
+            }
+          });
+        object.visible = false;
+        object.name = 'pgsr';
+        scene.add(object);
+        Allmeshes.push(object);
+
+            console.log(`Loaded pgsr`);
+        });
+        
+        var objLoader = new THREE.OBJLoader();
+        objLoader.load('./obj/gggs.obj', function ( object ) {    
+          object.traverse(node => {
+            if (node.material) {
+              node.material.vertexColors = true;
+            }
+          });
+        object.name = 'gggs';
+        object.visible = false;
+        object.name ='gggs';
+        scene.add(object);
+        Allmeshes.push(object);
+
+            console.log(`Loaded gggs`);
+        });        
+        
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.load( './obj/mesh_0n2m.obj.mtl', function( materials ) {
+          materials.preload();
+          var objLoader = new THREE.OBJLoader();
+          objLoader.setMaterials( materials );
+          objLoader.load( './obj/mesh_0n2m.obj', function ( object ) {    
+              mesh = object;
+              mesh.visible = false;
+              mesh.name = 'n2m';
+            Allmeshes.push(mesh);
+          
+              console.log(`Loaded n2m`);
+              scene.add( mesh );
+          });
+        });
+        
+        var mtlLoader = new THREE.MTLLoader();        
+        mtlLoader.load( './obj/sugarfine_3Dgs30000_densityestim02_sdfnorm02_level03_decim1000000_normalconsistency01_gaussperface1.obj.mtl', function( materials ) {
+          materials.preload();
+          var objLoader = new THREE.OBJLoader();
+          objLoader.setMaterials( materials );
+          objLoader.load( './obj/sugarfine_3Dgs30000_densityestim02_sdfnorm02_level03_decim1000000_normalconsistency01_gaussperface1.obj', function ( object ) {    
+                mesh = object;
+                scene.add( mesh );
+                mesh.visible = false;
+                mesh.name = 'sugar';
+              console.log(`Loaded sugar`);
+        Allmeshes.push(mesh);
+
+          });
+        });
+        
+        var objLoader = new THREE.OBJLoader();
+        objLoader.load('./obj/3dgs_mesh.obj', function ( object ) {    
+          object.traverse(node => {
+            if (node.material) {
+              node.material.vertexColors = true;
+            }
+          });
+        scene.add(object);
+        Allmeshes.push(object);
+            
+        object.visible = false;
+              console.log(`Loaded 3dgs`);
+            object.name = '3dgs'
+        });
+        
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setClearColor(0xffffff);
+        document.body.appendChild( renderer.domElement );
+
+        renderer.domElement.tabIndex = 0;
+        renderer.domElement.focus();
+        
+        document.addEventListener('keydown', onKeyDown, false);
+        function onKeyDown(event) {
+            // Check if the pressed key is 'h' or 'H'
+            // event.key is more readable than event.keyCode (which is 72 for 'H')
+            if (event.key === '1') {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                scene.getObjectByName('2dgs').visible = true;
+            }
+            if (event.key === '2') {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                scene.getObjectByName('alice').visible = true;
+            }
+            if (event.key === '3') {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                scene.getObjectByName('pgsr').visible = true;
+            }
+            if (event.key === '4') {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                scene.getObjectByName('gggs').visible = true;
+            }
+            if (event.key === '5') {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                scene.getObjectByName('n2m').visible = true;
+
+            }
+            if (event.key === '6') {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                scene.getObjectByName('sugar').visible = true;
+            }
+            if (event.key === '7') {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                scene.getObjectByName('3dgs').visible = true;
+            }
+        }
+        
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', renderer);
+        controls.minPolarAngle = 0; // Lower limit for vertical rotation
+        controls.maxPolarAngle = Math.PI;  // Upper limit for vertical rotation
+        controls.minAzimuthAngle = -Infinity; // Lower limit for horizontal rotation
+        controls.maxAzimuthAngle = Infinity;  // Upper limit for horizontal rotation
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        animate();
+
+        function animate() {
+            requestAnimationFrame( animate );
+            
+            renderer.render( scene, camera );
+        }
+
+    </script>
+</body>
+</html>
