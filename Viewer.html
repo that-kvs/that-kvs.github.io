@@ -38,6 +38,14 @@
         var directionalLight = new THREE.DirectionalLight( 0xffeedd );
         directionalLight.position.set( 0, 0, 0 ).normalize();
         scene.add( directionalLight );
+
+const greymeshMaterial = new THREE.MeshStandardMaterial({
+    color: 0x707070, // Dark grey surface
+    polygonOffset: true,
+    polygonOffsetFactor: 1, // Fixes z-fighting
+    polygonOffsetUnits: 1
+});
+        
         
 const loadingScreen = document.getElementById('loading-screen');
 const progressBar = document.getElementById('loading-bar');
@@ -70,6 +78,8 @@ manager.onError = function ( url ) {
 };
         
         const Allmeshes = [];
+        const Duplicatecopies = [];
+        
         var objLoader = new THREE.OBJLoader(manager);
         
         objLoader.load('./obj/2dgs9.obj', function ( object ) {    
@@ -83,6 +93,18 @@ manager.onError = function ( url ) {
         scene.add(object);
         Allmeshes.push(object);
         console.log(`Loaded 2dgs`);
+            
+            var dupli = object.clone();
+            dupli.visible = false;
+            dupli.name = object.name + 'cl';
+            dupli.traverse(node => {
+            if (node.material) {
+              node.material = greymeshMaterial;
+            }});
+            scene.add(dupli);
+            Duplicatecopies.push(dupli);
+            console.log(Duplicatecopies.length);            
+                        
         });
 
         
@@ -98,6 +120,18 @@ manager.onError = function ( url ) {
               scene.add( mesh );
               Allmeshes.push(mesh);              
               console.log(`Loaded alice`);
+              
+              var dupli = mesh.clone();
+            dupli.visible = false;
+            dupli.name = mesh.name + 'cl';
+            dupli.traverse(node => {
+            if (node.material) {
+              node.material = greymeshMaterial;
+            }});
+            scene.add(dupli);
+            Duplicatecopies.push(dupli);
+            console.log(Duplicatecopies.length);            
+            
           });
         });
 
@@ -114,6 +148,18 @@ manager.onError = function ( url ) {
         Allmeshes.push(object);
 
             console.log(`Loaded pgsr`);
+            
+            var dupli = object.clone();
+            dupli.visible = false;
+            dupli.name = object.name + 'cl';
+            dupli.traverse(node => {
+            if (node.material) {
+              node.material = greymeshMaterial;
+            }});
+            scene.add(dupli);
+            Duplicatecopies.push(dupli);
+            console.log(Duplicatecopies.length);            
+            
         });
         
         var objLoader = new THREE.OBJLoader(manager);
@@ -130,6 +176,18 @@ manager.onError = function ( url ) {
         Allmeshes.push(object);
 
             console.log(`Loaded gggs`);
+            
+            var dupli = object.clone();
+            dupli.visible = false;
+            dupli.name = object.name + 'cl';
+            dupli.traverse(node => {
+            if (node.material) {
+              node.material = greymeshMaterial;
+            }});
+            scene.add(dupli);
+            Duplicatecopies.push(dupli);
+            console.log(Duplicatecopies.length);            
+            
         });        
         
         var mtlLoaderb = new THREE.MTLLoader();
@@ -137,7 +195,7 @@ manager.onError = function ( url ) {
           materials.preload();
           var objLoader = new THREE.OBJLoader(manager);
           objLoader.setMaterials( materials );
-          objLoader.load( './obj/mesh_0n2m.obj', function ( object ) {    
+            objLoader.load( './obj/mesh_0n2m.obj', function ( object ) {    
               mesh = object;
               mesh.visible = false;
               mesh.name = 'n2m';
@@ -145,6 +203,18 @@ manager.onError = function ( url ) {
           
               console.log(`Loaded n2m`);
               scene.add( mesh );
+                
+            var dupli = mesh.clone();
+            dupli.visible = false;
+            dupli.name = mesh.name + 'cl';
+            dupli.traverse(node => {
+            if (node.material) {
+              node.material = greymeshMaterial;
+            }});
+            scene.add(dupli);
+            Duplicatecopies.push(dupli);
+            console.log(Duplicatecopies.length);     
+                
           });
         });
         
@@ -160,6 +230,18 @@ manager.onError = function ( url ) {
                 mesh.name = 'sugar';
               console.log(`Loaded sugar`);
         Allmeshes.push(mesh);
+              
+              
+                            var dupli = mesh.clone();
+            dupli.visible = false;
+            dupli.name = mesh.name + 'cl';
+            dupli.traverse(node => {
+            if (node.material) {
+              node.material = greymeshMaterial;
+            }});
+            scene.add(dupli);
+            Duplicatecopies.push(dupli);
+            console.log(Duplicatecopies.length);     
 
           });
         });
@@ -177,8 +259,20 @@ manager.onError = function ( url ) {
         object.visible = false;
               console.log(`Loaded 3dgs`);
             object.name = '3dgs'
+            
+            var dupli = object.clone();
+            dupli.visible = false;
+            dupli.name = object.name + 'cl';
+            dupli.traverse(node => {
+            if (node.material) {
+              node.material = greymeshMaterial;
+            }});
+            scene.add(dupli);
+            Duplicatecopies.push(dupli);
+            console.log(Duplicatecopies.length);            
+            
         });
-        
+                
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         renderer.setClearColor(0xffffff);
@@ -188,58 +282,186 @@ manager.onError = function ( url ) {
         renderer.domElement.focus();
         
         document.addEventListener('keydown', onKeyDown, false);
+        var currentvisi;
+        var mode = true;//true ==> colored
         function onKeyDown(event) {
             // Check if the pressed key is 'h' or 'H'
             // event.key is more readable than event.keyCode (which is 72 for 'H')
-            if (event.key === '1') {
+            if ((event.key === '1')&&(mode)) {
                 // Toggle the visible property
                 Allmeshes.forEach(meshh => {
                     meshh.visible = false;
                 });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
                 scene.getObjectByName('2dgs').visible = true;
+                currentvisi = '2dgs';
             }
-            if (event.key === '2') {
+            if ((event.key === '2')&&(mode)) {
                 // Toggle the visible property
                 Allmeshes.forEach(meshh => {
                     meshh.visible = false;
                 });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
                 scene.getObjectByName('alice').visible = true;
+                currentvisi = 'alice';
             }
-            if (event.key === '3') {
+            if ((event.key === '3')&&(mode)) {
                 // Toggle the visible property
                 Allmeshes.forEach(meshh => {
                     meshh.visible = false;
                 });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
                 scene.getObjectByName('pgsr').visible = true;
+                currentvisi = 'pgsr';
             }
-            if (event.key === '4') {
+            if ((event.key === '4')&&(mode)) {
                 // Toggle the visible property
                 Allmeshes.forEach(meshh => {
                     meshh.visible = false;
                 });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
                 scene.getObjectByName('gggs').visible = true;
+                currentvisi = 'gggs';
             }
-            if (event.key === '5') {
+            if ((event.key === '5')&&(mode)) {
                 // Toggle the visible property
                 Allmeshes.forEach(meshh => {
                     meshh.visible = false;
                 });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
                 scene.getObjectByName('n2m').visible = true;
-
+                currentvisi = 'n2m';
             }
-            if (event.key === '6') {
+            if ((event.key === '6')&&(mode)) {
                 // Toggle the visible property
                 Allmeshes.forEach(meshh => {
                     meshh.visible = false;
                 });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
                 scene.getObjectByName('sugar').visible = true;
+                currentvisi = 'sugar';
             }
-            if (event.key === '7') {
+            if ((event.key === '7')&&(mode)) {
                 // Toggle the visible property
                 Allmeshes.forEach(meshh => {
                     meshh.visible = false;
                 });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
                 scene.getObjectByName('3dgs').visible = true;
+                currentvisi = '3dgs';
+            }
+            if((event.key == 'g')||(event.key == 'G')){
+                mode = false;
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                });
+                console.log(currentvisi+'cl');
+                scene.getObjectByName(currentvisi+'cl').visible = true;
+                }
+            if((event.key == 'c')||(event.key == 'C')){
+                mode = true;
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                });    
+                scene.getObjectByName(currentvisi).visible = true;
+                }
+            
+        if ((event.key === '1')&&(!mode)) {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
+                scene.getObjectByName('2dgscl').visible = true;
+                currentvisi = '2dgs';
+            }
+            if ((event.key === '2')&&(!mode)) {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
+                scene.getObjectByName('alicecl').visible = true;
+                currentvisi = 'alice';
+            }
+            if ((event.key === '3')&&(!mode)) {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
+                scene.getObjectByName('pgsrcl').visible = true;
+                currentvisi = 'pgsr';
+            }
+            if ((event.key === '4')&&(!mode)) {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
+                scene.getObjectByName('gggscl').visible = true;
+                currentvisi = 'gggs';
+            }
+            if ((event.key === '5')&&(!mode)) {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
+                scene.getObjectByName('n2mcl').visible = true;
+                currentvisi = 'n2m';
+            }
+            if ((event.key === '6')&&(!mode)) {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
+                scene.getObjectByName('sugarcl').visible = true;
+                currentvisi = 'sugar';
+            }
+            if ((event.key === '7')&&(!mode)) {
+                // Toggle the visible property
+                Allmeshes.forEach(meshh => {
+                    meshh.visible = false;
+                });
+                Duplicatecopies.forEach(duplis =>{
+                   duplis.visible = false; 
+                }); 
+                scene.getObjectByName('3dgscl').visible = true;
+                currentvisi = '3dgs';
             }
         }
         
