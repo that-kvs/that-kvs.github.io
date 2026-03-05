@@ -36,8 +36,28 @@
         directionalLight.position.set( 0, 0, 0 ).normalize();
         scene.add( directionalLight );
         
+        const manager = new THREE.LoadingManager();
+        
+        manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+            console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+        };
+
+        manager.onProgress = function ( item, loaded, total ) {
+            console.log( 'Loading file: ' + item + '.\nLoaded ' + loaded + ' of ' + total + ' files.' );
+            // Update your loading screen UI here
+        };
+
+        manager.onLoad = function ( ) {
+            console.log( 'Loading complete!' );
+            // Hide your loading screen and initialize the main scene/animation
+        };
+
+        manager.onError = function ( url ) {
+            console.log( 'There was an error loading ' + url );
+        };        
+        
         const Allmeshes = [];
-        var objLoader = new THREE.OBJLoader();
+        var objLoader = new THREE.OBJLoader(manager);
         objLoader.load('./obj/2dgs9.obj', function ( object ) {    
           object.traverse(node => {
             if (node.material) {
@@ -54,7 +74,7 @@
         var mtlLoader = new THREE.MTLLoader();
         mtlLoader.load( './obj/alic9.obj.mtl', function( materials ) {
           materials.preload();
-          var objLoader = new THREE.OBJLoader();
+          var objLoader = new THREE.OBJLoader(manager);
           objLoader.setMaterials( materials );
           objLoader.load( './obj/alic9.obj', function ( object ) {    
               mesh = object;
