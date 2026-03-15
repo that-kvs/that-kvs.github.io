@@ -23,7 +23,7 @@
     <script>
         let scene, camera, renderer;
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
+        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 2000 );
         camera.up.set(0, 0, -1)
         camera.position.z = -3;
         camera.position.x = 0;
@@ -77,9 +77,14 @@ manager.onError = function ( url ) {
     console.error( 'There was an error loading %s', url );
 };
         
-        const Allmeshes = [];
-        const Duplicatecopies = [];
-        
+        //const Allmeshes = [];
+        //const Duplicatecopies = [];
+        const Allmeshes = new THREE.Group();
+        const Duplicatecopies = new THREE.Group();
+        scene.add(Allmeshes);
+        scene.add(Duplicatecopies);
+        const axesHelper = new THREE.AxesHelper( 5 ); // Creates axes with a length of 5 units
+        scene.add( axesHelper );
         var objLoader = new THREE.OBJLoader(manager);
         
         objLoader.load('./obj/2dgs9.obj', function ( object ) {    
@@ -91,7 +96,7 @@ manager.onError = function ( url ) {
             object.visible = false;
             object.name = '2dgs';
         scene.add(object);
-        Allmeshes.push(object);
+        Allmeshes.add(object);
         console.log(`Loaded 2dgs`);
             
             var dupli = object.clone();
@@ -102,8 +107,7 @@ manager.onError = function ( url ) {
               node.material = greymeshMaterial;
             }});
             scene.add(dupli);
-            Duplicatecopies.push(dupli);
-            console.log(Duplicatecopies.length);            
+            Duplicatecopies.add(dupli);     
                         
         });
 
@@ -118,7 +122,7 @@ manager.onError = function ( url ) {
               mesh.visible = false;
               mesh.name = 'alice';
               scene.add( mesh );
-              Allmeshes.push(mesh);              
+              Allmeshes.add(mesh);              
               console.log(`Loaded alice`);
               
               var dupli = mesh.clone();
@@ -129,8 +133,7 @@ manager.onError = function ( url ) {
               node.material = greymeshMaterial;
             }});
             scene.add(dupli);
-            Duplicatecopies.push(dupli);
-            console.log(Duplicatecopies.length);            
+            Duplicatecopies.add(dupli);       
             
           });
         });
@@ -145,7 +148,7 @@ manager.onError = function ( url ) {
         object.visible = false;
         object.name = 'pgsr';
         scene.add(object);
-        Allmeshes.push(object);
+        Allmeshes.add(object);
 
             console.log(`Loaded pgsr`);
             
@@ -157,8 +160,7 @@ manager.onError = function ( url ) {
               node.material = greymeshMaterial;
             }});
             scene.add(dupli);
-            Duplicatecopies.push(dupli);
-            console.log(Duplicatecopies.length);            
+            Duplicatecopies.add(dupli);           
             
         });
         
@@ -173,7 +175,7 @@ manager.onError = function ( url ) {
         object.visible = false;
         object.name ='gggs';
         scene.add(object);
-        Allmeshes.push(object);
+        Allmeshes.add(object);
 
             console.log(`Loaded gggs`);
             
@@ -185,8 +187,7 @@ manager.onError = function ( url ) {
               node.material = greymeshMaterial;
             }});
             scene.add(dupli);
-            Duplicatecopies.push(dupli);
-            console.log(Duplicatecopies.length);            
+            Duplicatecopies.add(dupli);          
             
         });        
         
@@ -199,10 +200,10 @@ manager.onError = function ( url ) {
               mesh = object;
               mesh.visible = false;
               mesh.name = 'n2m';
-            Allmeshes.push(mesh);
-          
               console.log(`Loaded n2m`);
               scene.add( mesh );
+            Allmeshes.add(mesh);
+          
                 
             var dupli = mesh.clone();
             dupli.visible = false;
@@ -212,8 +213,7 @@ manager.onError = function ( url ) {
               node.material = greymeshMaterial;
             }});
             scene.add(dupli);
-            Duplicatecopies.push(dupli);
-            console.log(Duplicatecopies.length);     
+            Duplicatecopies.add(dupli);     
                 
           });
         });
@@ -229,7 +229,7 @@ manager.onError = function ( url ) {
                 mesh.visible = false;
                 mesh.name = 'sugar';
               console.log(`Loaded sugar`);
-        Allmeshes.push(mesh);
+        Allmeshes.add(mesh);
               
               
                             var dupli = mesh.clone();
@@ -240,8 +240,7 @@ manager.onError = function ( url ) {
               node.material = greymeshMaterial;
             }});
             scene.add(dupli);
-            Duplicatecopies.push(dupli);
-            console.log(Duplicatecopies.length);     
+            Duplicatecopies.add(dupli);    
 
           });
         });
@@ -254,7 +253,7 @@ manager.onError = function ( url ) {
             }
           });
         scene.add(object);
-        Allmeshes.push(object);
+        Allmeshes.add(object);
             
         object.visible = false;
               console.log(`Loaded 3dgs`);
@@ -268,8 +267,7 @@ manager.onError = function ( url ) {
               node.material = greymeshMaterial;
             }});
             scene.add(dupli);
-            Duplicatecopies.push(dupli);
-            console.log(Duplicatecopies.length);            
+            Duplicatecopies.add(dupli);            
             
         });
                 
@@ -289,10 +287,10 @@ manager.onError = function ( url ) {
             // event.key is more readable than event.keyCode (which is 72 for 'H')
             if ((event.key === '1')&&(mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('2dgs').visible = true;
@@ -300,10 +298,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '2')&&(mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('alice').visible = true;
@@ -311,10 +309,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '3')&&(mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('pgsr').visible = true;
@@ -322,10 +320,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '4')&&(mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('gggs').visible = true;
@@ -333,10 +331,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '5')&&(mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('n2m').visible = true;
@@ -344,10 +342,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '6')&&(mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('sugar').visible = true;
@@ -355,10 +353,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '7')&&(mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('3dgs').visible = true;
@@ -366,10 +364,10 @@ manager.onError = function ( url ) {
             }
             if((event.key == 'g')||(event.key == 'G')){
                 mode = false;
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 });
                 console.log(currentvisi+'cl');
@@ -377,10 +375,10 @@ manager.onError = function ( url ) {
                 }
             if((event.key == 'c')||(event.key == 'C')){
                 mode = true;
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 });    
                 scene.getObjectByName(currentvisi).visible = true;
@@ -388,10 +386,10 @@ manager.onError = function ( url ) {
             
         if ((event.key === '1')&&(!mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('2dgscl').visible = true;
@@ -399,10 +397,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '2')&&(!mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('alicecl').visible = true;
@@ -410,10 +408,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '3')&&(!mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('pgsrcl').visible = true;
@@ -421,10 +419,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '4')&&(!mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('gggscl').visible = true;
@@ -432,10 +430,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '5')&&(!mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('n2mcl').visible = true;
@@ -443,10 +441,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '6')&&(!mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('sugarcl').visible = true;
@@ -454,10 +452,10 @@ manager.onError = function ( url ) {
             }
             if ((event.key === '7')&&(!mode)) {
                 // Toggle the visible property
-                Allmeshes.forEach(meshh => {
+                Allmeshes.children.forEach(meshh => {
                     meshh.visible = false;
                 });
-                Duplicatecopies.forEach(duplis =>{
+                Duplicatecopies.children.forEach(duplis =>{
                    duplis.visible = false; 
                 }); 
                 scene.getObjectByName('3dgscl').visible = true;
@@ -465,10 +463,14 @@ manager.onError = function ( url ) {
             }
         }
         
+        Allmeshes.rotation.x = 0.85;
+        Duplicatecopies.rotation.x = 0.85;
+        Allmeshes.position.set(-0.3,0,-2);
+        Duplicatecopies.position.set(-0.3,0,-2);
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.addEventListener('change', renderer);
-        controls.minPolarAngle = 0; // Lower limit for vertical rotation
-        controls.maxPolarAngle = Math.PI;  // Upper limit for vertical rotation
+        controls.minPolarAngle = -Infinity; // Lower limit for vertical rotation
+        controls.maxPolarAngle = Infinity;  // Upper limit for vertical rotation
         controls.minAzimuthAngle = -Infinity; // Lower limit for horizontal rotation
         controls.maxAzimuthAngle = Infinity;  // Upper limit for horizontal rotation
         controls.enableDamping = true;
