@@ -23,7 +23,7 @@
     <script>
         let scene, camera, renderer;
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 2000 );
+        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 2000 );
         camera.up.set(0, 0, -1)
         camera.position.z = -3;
         camera.position.x = 0;
@@ -83,8 +83,8 @@ manager.onError = function ( url ) {
         const Duplicatecopies = new THREE.Group();
         scene.add(Allmeshes);
         scene.add(Duplicatecopies);
-        const axesHelper = new THREE.AxesHelper( 5 ); // Creates axes with a length of 5 units
-        scene.add( axesHelper );
+//        const axesHelper = new THREE.AxesHelper( 5 ); // Creates axes with a length of 5 units
+//        scene.add( axesHelper );
         var objLoader = new THREE.OBJLoader(manager);
         
         objLoader.load('./obj/2dgs9.obj', function ( object ) {    
