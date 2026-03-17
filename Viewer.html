@@ -6,8 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://threejs.org/build/three.min.js"></script>
-
+    <script src="https://threejs.org/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
@@ -20,6 +19,21 @@
     <div id="loading-bar"></div>
     <div id="loading-progress-label">Loading 0%</div>
     </div>
+    <div id="text">
+        Press 1 to 7 for the corresponding Mesh samples.<br>
+        Press 0 to cycle through Real Images and Press H to hide them.
+    </div>
+    <div id="current">
+        
+    </div>
+    <img src="obj/Images/1.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img1"/>
+    <img src="obj/Images/2.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img2"/>
+    <img src="obj/Images/3.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img3"/>
+    <img src="obj/Images/4.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img4"/>
+    <img src="obj/Images/5.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img5"/>
+    <img src="obj/Images/6.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img6"/>
+    <img src="obj/Images/7.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img7"/>
+    <img src="obj/Images/8.jpg" style=" top: 10px; left: 10px; width:500px;height: auto; display:block;" id="img8"/>
     <script>
         let scene, camera, renderer;
         scene = new THREE.Scene();
@@ -45,6 +59,7 @@ const greymeshMaterial = new THREE.MeshStandardMaterial({
     polygonOffsetFactor: 1, // Fixes z-fighting
     polygonOffsetUnits: 1
 });
+        
         
         
 const loadingScreen = document.getElementById('loading-screen');
@@ -278,11 +293,45 @@ manager.onError = function ( url ) {
 
         renderer.domElement.tabIndex = 0;
         renderer.domElement.focus();
+
+        const currentdiv = document.getElementById('current');
         
         document.addEventListener('keydown', onKeyDown, false);
         var currentvisi;
         var mode = true;//true ==> colored
+        var imgcounter = 0;
+  function toggleImage(id) {
+    var image = document.getElementById(id);
+    if (image.style.display === 'block') {
+      image.style.display ='none';
+      //image.removeAttribute("hidden");
+    }
+  }        
+  function allimgoff(){
+                toggleImage('img1');
+                toggleImage('img2');                
+                toggleImage('img3');
+                toggleImage('img4');
+                toggleImage('img5');
+                toggleImage('img6');
+                toggleImage('img7');
+                toggleImage('img8');
+  }
+        allimgoff();
         function onKeyDown(event) {
+            if ((event.key === 'h')||(event.key === 'H')) {
+                imgcounter = 0;
+                allimgoff();
+            }
+            if(event.key === '0'){
+                allimgoff();
+                imgcounter = imgcounter%8 + 1;
+                console.log('img'+imgcounter);
+                var imgid = document.getElementById('img'+imgcounter);
+                if (imgid.style.display === 'none') {
+                    imgid.style.display = 'block';
+                }
+            }
             // Check if the pressed key is 'h' or 'H'
             // event.key is more readable than event.keyCode (which is 72 for 'H')
             if ((event.key === '1')&&(mode)) {
@@ -295,6 +344,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('2dgs').visible = true;
                 currentvisi = '2dgs';
+                currentdiv.textContent = "Current Mesh is Sample 1";
             }
             if ((event.key === '2')&&(mode)) {
                 // Toggle the visible property
@@ -306,6 +356,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('alice').visible = true;
                 currentvisi = 'alice';
+                currentdiv.textContent = "Current Mesh is Sample 2";
             }
             if ((event.key === '3')&&(mode)) {
                 // Toggle the visible property
@@ -317,6 +368,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('pgsr').visible = true;
                 currentvisi = 'pgsr';
+                currentdiv.textContent = "Current Mesh is Sample 3";
             }
             if ((event.key === '4')&&(mode)) {
                 // Toggle the visible property
@@ -328,6 +380,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('gggs').visible = true;
                 currentvisi = 'gggs';
+                currentdiv.textContent = "Current Mesh is Sample 4";
             }
             if ((event.key === '5')&&(mode)) {
                 // Toggle the visible property
@@ -339,6 +392,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('n2m').visible = true;
                 currentvisi = 'n2m';
+                currentdiv.textContent = "Current Mesh is Sample 5";
             }
             if ((event.key === '6')&&(mode)) {
                 // Toggle the visible property
@@ -350,6 +404,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('sugar').visible = true;
                 currentvisi = 'sugar';
+                            currentdiv.textContent = "Current Mesh is Sample 6";
             }
             if ((event.key === '7')&&(mode)) {
                 // Toggle the visible property
@@ -361,6 +416,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('3dgs').visible = true;
                 currentvisi = '3dgs';
+                currentdiv.textContent = "Current Mesh is Sample 7";
             }
             if((event.key == 'g')||(event.key == 'G')){
                 mode = false;
@@ -394,7 +450,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('2dgscl').visible = true;
                 currentvisi = '2dgs';
-            }
+                currentdiv.textContent = "Current Mesh is Sample 1";            }
             if ((event.key === '2')&&(!mode)) {
                 // Toggle the visible property
                 Allmeshes.children.forEach(meshh => {
@@ -405,7 +461,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('alicecl').visible = true;
                 currentvisi = 'alice';
-            }
+                currentdiv.textContent = "Current Mesh is Sample 2";            }
             if ((event.key === '3')&&(!mode)) {
                 // Toggle the visible property
                 Allmeshes.children.forEach(meshh => {
@@ -416,7 +472,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('pgsrcl').visible = true;
                 currentvisi = 'pgsr';
-            }
+                currentdiv.textContent = "Current Mesh is Sample 3";            }
             if ((event.key === '4')&&(!mode)) {
                 // Toggle the visible property
                 Allmeshes.children.forEach(meshh => {
@@ -427,7 +483,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('gggscl').visible = true;
                 currentvisi = 'gggs';
-            }
+                currentdiv.textContent = "Current Mesh is Sample 4";            }
             if ((event.key === '5')&&(!mode)) {
                 // Toggle the visible property
                 Allmeshes.children.forEach(meshh => {
@@ -438,7 +494,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('n2mcl').visible = true;
                 currentvisi = 'n2m';
-            }
+                currentdiv.textContent = "Current Mesh is Sample 5";            }
             if ((event.key === '6')&&(!mode)) {
                 // Toggle the visible property
                 Allmeshes.children.forEach(meshh => {
@@ -449,7 +505,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('sugarcl').visible = true;
                 currentvisi = 'sugar';
-            }
+                currentdiv.textContent = "Current Mesh is Sample 6";            }
             if ((event.key === '7')&&(!mode)) {
                 // Toggle the visible property
                 Allmeshes.children.forEach(meshh => {
@@ -460,7 +516,7 @@ manager.onError = function ( url ) {
                 }); 
                 scene.getObjectByName('3dgscl').visible = true;
                 currentvisi = '3dgs';
-            }
+                currentdiv.textContent = "Current Mesh is Sample 7";            }
         }
         
         Allmeshes.rotation.x = 0.85;
