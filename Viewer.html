@@ -21,6 +21,7 @@
     window.scrollTo(0, 0); 
   };
 </script>
+    
     <div id="loading-screen">
     <div id="loading-bar"></div>
     <div id="loading-progress-label">Loading 0%</div>
@@ -34,6 +35,11 @@
         
     </div>
  
+<div style="display: flex;" >
+    <div id="3dcontainer">
+
+    </div>
+    <div id="imagecontainer">
     <!--<img src="obj/Images/1.jpg" style=" top: 10px; left: 10px; display:none;" id="img1"/>
     <img src="obj/Images/2.jpg" style=" top: 10px; left: 10px; display:none;" id="img2"/>
     <img src="obj/Images/3.jpg" style=" top: 10px; left: 10px; display:none;" id="img3"/>
@@ -42,6 +48,10 @@
     <img src="obj/Images/6.jpg" style=" top: 10px; left: 10px; width: 600px;height: auto;display:none;" id="img6"/>
     <img src="obj/Images/7.jpg" style=" top: 10px; left: 10px; width: 600px;height:auto; display:none;" id="img7"/>
     <img src="obj/Images/8.jpg" style=" top: 10px; left: 10px; width: 600px;height:auto; display:none;" id="img8"/>
+
+    </div>
+</div>
+    
     <script>
         let scene, camera, renderer;
         scene = new THREE.Scene();
@@ -295,10 +305,10 @@ manager.onError = function ( url ) {
         });
                 
         renderer = new THREE.WebGLRenderer();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize( window.innerWidth/1.3, window.innerHeight/1.3 );
         renderer.setClearColor(0xffffff);
-        document.body.appendChild( renderer.domElement );
-
+        //document.body.appendChild( renderer.domElement );
+        document.getElementById('3dcontainer').appendChild(renderer.domElement);
         renderer.domElement.tabIndex = 0;
         renderer.domElement.focus();
 
