@@ -15,17 +15,13 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
 </head>
 <body>
-    <script>
-        window.onload = function() {
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      };
-    </script>    
     <div id="loading-screen">
     <div id="loading-bar"></div>
     <div id="loading-progress-label">Loading 0%</div>
     </div>
-    <div id="text" style="font-size: 20px;font-style: italic;margin-left: auto; margin-right: auto;text-align: left;">
+    <div id="text">
         Press 1 to 7 for the corresponding Mesh samples.<br>
+<<<<<<< HEAD
         Press 0 to cycle through some real images of the plant and Press H to hide them.
     </div>    
     <hr>
@@ -34,6 +30,21 @@
     </div>
     <div style="display: flex;">    
     <div style="flex: 1;height: 100vh;width: 50vw;">
+=======
+        Press 0 to cycle through Real Images and Press H to hide them.
+    </div>
+    <div id="current">
+        
+    </div>
+    <img src="obj/Images/1.jpg" style=" top: 10px; left: 10px; display:none;" id="img1"/>
+    <img src="obj/Images/2.jpg" style=" top: 10px; left: 10px; display:none;" id="img2"/>
+    <img src="obj/Images/3.jpg" style=" top: 10px; left: 10px; display:none;" id="img3"/>
+    <img src="obj/Images/4.jpg" style=" top: 10px; left: 10px; display:none;" id="img4"/>
+    <img src="obj/Images/5.jpg" style=" top: 10px; left: 10px; display:none;" id="img5"/>
+    <img src="obj/Images/6.jpg" style=" top: 10px; left: 10px; display:none;" id="img6"/>
+    <img src="obj/Images/7.jpg" style=" top: 10px; left: 10px; display:none;" id="img7"/>
+    <img src="obj/Images/8.jpg" style=" top: 10px; left: 10px; display:none;" id="img8"/>
+>>>>>>> parent of 5b985b5 (changes)
     <script>
         let scene, camera, renderer;
         scene = new THREE.Scene();
@@ -308,10 +319,10 @@ manager.onError = function ( url ) {
     }
   }        
   function allimgoff(){
-                //toggleImage('img1');
-                //toggleImage('img2');                
-                //toggleImage('img3');
-                //toggleImage('img4');
+                toggleImage('img1');
+                toggleImage('img2');                
+                toggleImage('img3');
+                toggleImage('img4');
                 toggleImage('img5');
                 toggleImage('img6');
                 toggleImage('img7');
@@ -325,7 +336,7 @@ manager.onError = function ( url ) {
             }
             if(event.key === '0'){
                 allimgoff();
-                imgcounter = imgcounter%4 + 5;
+                imgcounter = imgcounter%8 + 1;
                 console.log('img'+imgcounter);
                 var imgid = document.getElementById('img'+imgcounter);
                 if (imgid.style.display === 'none') {
