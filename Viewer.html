@@ -22,7 +22,7 @@
   };
 </script>
     
-    <div id="loading-screen">
+    <div id="loading-screen" style="object-fit: cover">
     <div id="loading-bar"></div>
     <div id="loading-progress-label">Loading 0%</div>
     </div>
@@ -34,7 +34,10 @@
         - Scroll Up and Down To Zoom In and Zoom Out
     </div>    
     <hr>
- 
+
+<div id="current" style="font-size: 30px;font-style: italic;margin-left: auto; margin-right: auto;text-align: center;">
+
+</div> 
 <div style="display: flex;" >
     <div id="3dcontainer">
 
@@ -51,14 +54,11 @@
 
     </div>
 </div>
-<div id="current" style="font-size: 30px;font-style: italic;margin-left: auto; margin-right: auto;text-align: center;">
-
-</div>
     
     <script>
         let scene, camera, renderer;
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerWidth, 0.1, 2000 );
+        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerWidth/((4624/3472)), 0.1, 2000 );
         camera.up.set(0, 0, -1)
         camera.position.z = -3;
         camera.position.x = 0;
@@ -308,7 +308,7 @@ manager.onError = function ( url ) {
         });
                 
         renderer = new THREE.WebGLRenderer();
-        renderer.setSize( window.innerWidth/2, window.innerWidth/2 );
+        renderer.setSize( window.innerWidth/2, window.innerWidth/(2*(4624/3472)) );
         renderer.setClearColor(0xffffff);
         //document.body.appendChild( renderer.domElement );
         document.getElementById('3dcontainer').appendChild(renderer.domElement);
