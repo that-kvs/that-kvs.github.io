@@ -27,38 +27,38 @@
     <div id="loading-progress-label">Loading 0%</div>
     </div>
     <div id="text">
-        Press 1 to 7 for the corresponding Mesh samples.<br>
-        You can also see some real images of the same plant to check the actual appearance of the plant by pressing 0 repeatedly. You can press H to hide them.
+        Press 1 to 7 for the corresponding Mesh samples in the 3D viewer on the left side of the image below.<br>
+        Press 0 to cycle through images of the same plant on the right side. You can press H to hide the image.
         <br><b>Viewer Controls</b><br> 
         - Left Mouse Button Pressed + Mouse Motion To Move the camera<br>
         - Scroll Up and Down To Zoom In and Zoom Out
     </div>    
     <hr>
-    <div id="current" style="font-size: 30px;font-style: italic;margin-left: auto; margin-right: auto;text-align: center;">
-        
-    </div>
  
 <div style="display: flex;" >
     <div id="3dcontainer">
 
     </div>
-    <div id="imagecontainer">
+    <div id="imagecontainer" style="width: 50%">
     <!--<img src="obj/Images/1.jpg" style=" top: 10px; left: 10px; display:none;" id="img1"/>
     <img src="obj/Images/2.jpg" style=" top: 10px; left: 10px; display:none;" id="img2"/>
     <img src="obj/Images/3.jpg" style=" top: 10px; left: 10px; display:none;" id="img3"/>
     <img src="obj/Images/4.jpg" style=" top: 10px; left: 10px; display:none;" id="img4"/>
-    --><img src="obj/Images/5.jpg" style=" top: 10px; left: 10px; width: 600px;height: auto; display:none;" id="img5"/>
-    <img src="obj/Images/6.jpg" style=" top: 10px; left: 10px; width: 600px;height: auto;display:none;" id="img6"/>
-    <img src="obj/Images/7.jpg" style=" top: 10px; left: 10px; width: 600px;height:auto; display:none;" id="img7"/>
-    <img src="obj/Images/8.jpg" style=" top: 10px; left: 10px; width: 600px;height:auto; display:none;" id="img8"/>
+    --><img src="obj/Images/5.jpg" style="object-fit: cover;display:block;max-width:  50vw;" id="img5"/>
+    <img src="obj/Images/6.jpg" style="object-fit: cover; display:none;max-width: 50vw;" id="img6"/>
+    <img src="obj/Images/7.jpg" style="object-fit: cover; display:none;max-width: 50vw;" id="img7"/>
+    <img src="obj/Images/8.jpg" style="object-fit: cover; display:none;max-width: 50vw;" id="img8"/>
 
     </div>
+</div>
+<div id="current" style="font-size: 30px;font-style: italic;margin-left: auto; margin-right: auto;text-align: center;">
+
 </div>
     
     <script>
         let scene, camera, renderer;
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 2000 );
+        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerWidth, 0.1, 2000 );
         camera.up.set(0, 0, -1)
         camera.position.z = -3;
         camera.position.x = 0;
@@ -308,7 +308,7 @@ manager.onError = function ( url ) {
         });
                 
         renderer = new THREE.WebGLRenderer();
-        renderer.setSize( window.innerWidth/1.3, window.innerHeight/1.3 );
+        renderer.setSize( window.innerWidth/2, window.innerWidth/2 );
         renderer.setClearColor(0xffffff);
         //document.body.appendChild( renderer.domElement );
         document.getElementById('3dcontainer').appendChild(renderer.domElement);
@@ -320,7 +320,7 @@ manager.onError = function ( url ) {
         document.addEventListener('keydown', onKeyDown, false);
         var currentvisi;
         var mode = true;//true ==> colored
-        var imgcounter = 0;
+        var imgcounter = 1;
   function toggleImage(id) {
     var image = document.getElementById(id);
     if (image.style.display === 'block') {
@@ -338,7 +338,7 @@ manager.onError = function ( url ) {
                 toggleImage('img7');
                 toggleImage('img8');
   }
-        allimgoff();
+        //allimgoff();
         function onKeyDown(event) {
             if ((event.key === 'h')||(event.key === 'H')) {
                 imgcounter = 0;
